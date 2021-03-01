@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+const cluster = require('cluster');
 let onlineUsers = [];
 
 io.on('connection', (socket) => {
@@ -20,3 +21,22 @@ console.log('online users: ' + onlineUsers.length)
         onlineUsers.splice(onlineUsers.indexOf(socket), 1);
     });
 });
+if (false) {
+    var cpuCount = require('os').cpus().length;
+
+    for (var i = 0; i < cpuCount; i += 1) {
+        cluster.fork();
+    }
+
+} else {
+    
+    
+
+    server.listen(port, () => {
+        console.log('Listening on :', port);
+        
+        app.get('/',function(req,res){
+        res.send('test');
+        })
+    });
+}
